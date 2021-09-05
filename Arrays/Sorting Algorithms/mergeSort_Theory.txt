@@ -1,0 +1,14 @@
+MERGE SORT: Based on divide and conquer algorithm.
+
+Approach: 1. Base Case: If there is only one or less elements in the array, it means
+                        that the array is already sorted. So we can return the array.
+          	 2. Recursive Case: 1. Find the middle point of the array.
+                             		2. Recursively call mergeSort on the two subarrays divided 
+                                	    by the middle point.
+                            		3. Merge two smaller sorted subarrays, by making comparisions 
+                               		    among the elements of the two subarrays.    
+
+Time Complexity:  Best & Worst Case Complexity : O(N Log N)                                 
+Space Complexity:  O(N)
+In Place Algorithm:  No
+Stable Algorithm:  Yes
