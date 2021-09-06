@@ -1,0 +1,12 @@
+QUICK SORT:
+
+Approach: 
+Step 1 − Make any element as pivot
+Step 2 − Partition the array on the basis of pivot
+Step 3 − Apply quick sort on left partition recursively
+Step 4 − Apply quick sort on right partition recursively
+
+Time Complexity:  Best Case: O(N log N) & Worst Case Complexity : O(N * N)  
+					& The randomized version has expected time complexity of O(nLogn).                                
+Stable: No
+In Place: Yes
