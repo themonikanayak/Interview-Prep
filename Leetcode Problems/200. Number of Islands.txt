@@ -1,0 +1,38 @@
+class Solution {
+public:
+    
+    vector<vector<int>> nbrs = {{1,0}, {0,1}, {-1,0}, {0,-1}};
+    
+    void dfs(vector<vector<char>>& grid, vector<vector<bool>>& visited, int i, int j){
+        visited[i][j] = true;
+        
+        //Visit all neighbors of the current node
+        for(auto& nbr: nbrs){
+            int x = i + nbr[0];
+            int y = j + nbr[1];
+            
+            if(x<0 || y<0 || x>=grid.size() || y>=grid[0].size()
+              || grid[x][y]=='0' || visited[x][y]){
+                continue;
+            }
+            
+            dfs(grid, visited, x, y);
+        }
+    }
+    
+    int numIslands(vector<vector<char>>& grid) {
+        int cnt = 0;
+        vector<vector<bool>> visited(grid.size(), vector<bool> (grid[0].size(),false));
+        
+        for(int i=0; i<grid.size(); i++){
+            for(int j=0; j<grid[0].size(); j++){
+                if(grid[i][j]=='1' && !visited[i][j]){
+                    dfs(grid, visited, i, j);
+                    cnt++;
+                }
+            }
+        }
+        
+        return cnt;
+    }
+};
