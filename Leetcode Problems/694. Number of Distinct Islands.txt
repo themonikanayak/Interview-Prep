@@ -1,0 +1,43 @@
+class Solution {
+public:
+    
+    vector<vector<int>> nbrs = {{1,0},{0,1},{-1,0},{0,-1}};
+    vector<char> dirs = {'R', 'U', 'L', 'D'};
+    void dfs(vector<vector<int>>& grid, int i, int j, vector<vector<bool>>& visited, string& island){
+        visited[i][j] = true;
+        
+        //Visit all its neighbors
+        for(int k=0; k<nbrs.size(); k++){
+            int x = i + nbrs[k][0];
+            int y = j + nbrs[k][1];
+            
+            if(x<0 || y<0 || x>=grid.size() || y>=grid[0].size()
+              || visited[x][y] || grid[x][y]==0){
+                continue;
+            }
+            
+            island += dirs[k];
+            dfs(grid, x, y, visited, island);
+            
+        }
+        island += '#';
+    }
+    
+    int numDistinctIslands(vector<vector<int>>& grid) {
+        unordered_set<string> res;
+        vector<vector<bool>> visited(grid.size(), vector<bool> (grid[0].size(), false));
+        
+        for(int i=0; i<grid.size(); i++){
+            for(int j=0; j<grid[0].size(); j++){
+                if(grid[i][j]==1 && !visited[i][j]){
+                    string s = "";
+                    dfs(grid, i, j, visited, s);
+                    if(res.find(s)==res.end()){
+                        res.insert(s);
+                    }
+                }
+            }
+        }
+        return res.size();
+    }
+};
