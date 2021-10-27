@@ -1,0 +1,45 @@
+class Solution {
+public:
+    vector<vector<int>> offset = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+        
+    vector<vector<int>> updateMatrix(vector<vector<int>>& mat) {
+        // q[0] = row index.
+        // q[1] = column index.
+        // q[2] = distance from nearest 0.
+        int m = mat.size(), n = mat[0].size();
+        queue<vector<int>> q;
+        vector<vector<int>> res(m, vector<int> (n, -1)); 
+        
+        // Initialize the queue and visited array with 0's. 
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (mat[i][j] == 0) {
+                    q.push({i, j, 0});
+                    res[i][j] = 0;
+                }
+            }
+        }
+        
+        // Level Order Traversal. 
+        while(!q.empty()) {
+            vector<int> curr = q.front();
+            q.pop();
+            
+            // Traverse through the neighbors.
+            for(auto& entry : offset) {
+                int x = curr[0] + entry[0];
+                int y = curr[1] + entry[1];
+                
+                if (x < 0 || y < 0 || x >= m || y >= n) 
+                    continue;
+                
+                if(res[x][y] == -1){
+                    q.push({x, y, curr[2] + 1});
+                    res[x][y] = curr[2] + 1;
+                } 
+            }
+        }
+        
+        return res;
+    }
+};
