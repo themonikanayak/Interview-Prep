@@ -1,0 +1,43 @@
+class Solution {
+public:
+    int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
+        unordered_set<string> dict(wordList.begin(),wordList.end());
+        queue<pair<string,int>> q;
+        
+        unordered_set<string> visited;
+        
+        //Initialize the queue with the beginWord
+        q.push({beginWord,1});
+        visited.insert(beginWord);
+        
+        //Start a level order traversal
+        while(!q.empty()){
+            pair<string,int> t = q.front();
+            q.pop();
+            
+            if(t.first == endWord){
+                return t.second;
+            }
+            
+            //Traverse through the neighbors
+            //Mark them visited
+            //& Push them in the queue
+            string word = t.first;
+            int dist = t.second;
+            
+            for(int i=0; i<word.size(); i++){
+                for(int j=0; j<26; j++){
+                    word[i] = (j + 'a');
+                    
+                    if(dict.find(word)!=dict.end() && visited.find(word)==visited.end()){
+                        q.push({word, dist + 1});
+                        visited.insert(word);
+                    }
+                    
+                    word[i] = (t.first)[i];
+                }
+            }
+        }
+        return 0;
+    }
+};
