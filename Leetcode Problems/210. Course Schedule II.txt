@@ -1,0 +1,43 @@
+class Solution {
+public:
+    vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
+        //1. Create Graph and populate indegree vector
+        vector<vector<int>> graph(numCourses);
+        vector<int> in(numCourses,0);
+        queue<int> q;
+        
+        for(auto& pre: prerequisites){
+            graph[pre[1]].push_back(pre[0]);
+            in[pre[0]]++;
+        }
+        
+        //2. Initialize the initial queue to traverse
+        for(int i=0; i<numCourses; i++){
+            if(in[i]==0){
+                q.push(i);
+            }
+        }
+        
+        //3. Traverse the queue and populate the result vector
+        vector<int> res;
+        while(!q.empty()){
+            int x = q.front();
+            q.pop();
+            res.push_back(x);
+            
+            for(auto& nbr: graph[x]){
+                in[nbr]--;
+                if(in[nbr]==0){
+                    q.push(nbr);
+                }
+            }
+        }
+        
+        //4. If the graph contains a cycle
+        if(res.size()!=numCourses){
+            return {};
+        }
+        
+        return res;
+    }
+};
