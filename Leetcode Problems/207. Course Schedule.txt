@@ -1,0 +1,47 @@
+class Solution {
+public:
+    
+    bool containsCycle(vector<vector<int>>& graph, vector<bool>& visited, 
+                       int s, vector<bool>& curr_visited){
+        visited[s] = true;
+        curr_visited[s] = true;
+        bool flag = false;
+        
+        for(auto& nbr: graph[s]){
+            if(curr_visited[nbr]){
+                return true;
+            }
+            if(!visited[nbr]){
+                // curr_visited[nbr] = true;
+                flag = flag || containsCycle(graph, visited, nbr, curr_visited);
+                curr_visited[nbr] = false;
+            }
+        }
+        return flag;
+    }
+    
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+        
+        //1. Create Graph
+        vector<vector<int>> graph(numCourses);
+        
+        for(auto& pre: prerequisites){
+            graph[pre[1]].push_back(pre[0]);
+        }
+            
+        //2. Check if graph contains cycle
+        vector<bool> visited(numCourses,false);
+        vector<bool> curr_visited(numCourses, false);
+        bool flag = false;
+        for(int i=0; i<numCourses; i++){
+            if(!visited[i]){
+                flag = containsCycle(graph, visited, i, curr_visited);
+                if(flag){
+                    return false;
+                }
+                curr_visited[i] = false;
+            }
+        }
+        return true;
+    }
+};
