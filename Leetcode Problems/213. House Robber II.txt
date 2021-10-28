@@ -1,0 +1,36 @@
+class Solution {
+public:
+    int robHelper(vector<int>& nums, int s, int n) {
+
+        if(n == 0) {
+            return 0;
+        }
+        
+        if(n == 1) {
+            return nums[0];
+        }
+        
+        int dp[2];
+        dp[(n)%2] = 0; dp[(n-1)%2] = nums[n-1];
+        
+        for(int i = n-2; i >= s; i--) {
+            dp[(i%2)] = max(nums[i] + dp[(i+2)%2], dp[(i+1)%2]);
+        }
+        
+        return dp[s];
+    }
+    
+    int rob(vector<int>& nums) {
+        int n = nums.size();
+        
+        if(n == 0) {
+            return 0;
+        }
+        
+        if(n == 1) {
+            return nums[0];
+        }
+        
+        return max(robHelper(nums, 0, n-1), robHelper(nums, 1, n));
+    }
+};
