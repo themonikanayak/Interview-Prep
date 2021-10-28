@@ -1,0 +1,51 @@
+class Solution {
+public:
+    string alienOrder(vector<string>& words) {
+        int i, j, n = words.size();
+        string res;
+        unordered_map<char, vector<char> > graph;
+        unordered_map<char, int> indegree;
+        queue<char> q;
+        
+        for(i = 0; i < words.size(); i++) {
+            for(j = 0; j < words[i].size(); j++) 
+                graph[words[i][j]] = {}, indegree[words[i][j]] = 0;
+        }
+        
+        for(i = 1; i < words.size(); i++) {
+            int j = 0, k = 0;
+            
+            while(j < words[i-1].size() && k < words[i].size() && words[i-1][j] == words[i][k])
+                j++, k++;
+            
+            if(j == words[i-1].size())
+                continue;
+            else if(k == words[i].size())
+                return "";
+            
+            graph[words[i-1][j]].push_back(words[i][k]);
+            indegree[words[i][k]]++;
+        }
+        
+        for(auto it = indegree.begin(); it != indegree.end(); it++) {
+            if(it->second == 0)
+                q.push(it->first);
+        }
+            
+        while(!q.empty()) {
+            char p = q.front();
+            q.pop();
+            res += p;
+            
+            for(i = 0; i < graph[p].size(); i++) {
+                indegree[graph[p][i]]--;
+                if(indegree[graph[p][i]] == 0)
+                    q.push(graph[p][i]), cout << graph[p][i];
+            }
+        }
+        if(res.size() == graph.size()) 
+            return res;
+        else 
+            return "";
+    }
+};
