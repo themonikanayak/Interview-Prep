@@ -1,0 +1,18 @@
+class Solution {
+public:
+    int maxProduct(vector<int>& nums) {
+        int n = nums.size(), i, res = INT_MIN, x, y;
+        vector<int> minProd(2, 1);
+        vector<int> maxProd(2, 1);
+        
+        for(i = 1; i <= n; i++) {
+            x = minProd[(i - 1)%2], y = maxProd[(i - 1)%2];
+            minProd[i%2] = min(nums[i - 1], min(nums[i - 1]*x, nums[i - 1]*y));
+            maxProd[i%2] = max(nums[i - 1], max(nums[i - 1]*x, nums[i - 1]*y));
+            
+            res = max(res, maxProd[i%2]);
+        }
+        
+        return res;
+    }
+};
