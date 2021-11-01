@@ -1,0 +1,43 @@
+// Solution 1:
+
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        int n = nums.size(), i, ans;
+        vector<int> dp(2 , 0);
+        
+        // Initialize the ans and dp array.
+        ans = dp[0] = nums[0];
+        
+        // dp[i] : Maximum sum subarray ending at i.
+        // Compute maximum sum of all dp[i]'s.
+        for(i = 1; i < n; i++) {
+            dp[i%2] = max(dp[(i - 1)%2] + nums[i], nums[i]);
+            ans = max(ans, dp[i%2]);
+        }
+        
+        return ans;
+    }
+};
+
+/***********************************************************/
+
+// Solution 2:
+
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        int sum = 0;
+        int max_sum = INT_MIN;
+        for(int i=0;i<nums.size();i++){
+            sum += nums[i];
+            if(max_sum<sum){
+                max_sum = sum;
+            }
+            if(sum<0){
+                sum = 0;
+            }
+        }
+        return max_sum;
+    }
+};
