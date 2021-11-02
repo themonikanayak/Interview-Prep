@@ -1,0 +1,56 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        if(head==NULL){
+            return head;
+        }
+        if(head->next==NULL){
+            delete head;
+            return NULL;
+        }
+        ListNode* slow = head;
+        ListNode* fast = head;
+        bool flag = false;
+        //Take n jumps to get n+1 element from end
+
+        for(int i=1;i<=n;i++){
+            if(fast!=NULL && fast->next!=NULL){
+                fast=fast->next;
+            }
+            else{
+                flag=true;
+                break;
+            }
+        }
+        //Find the n+1 element from end
+        //Also
+        if(flag){
+            ListNode* temp = slow->next;
+            delete head;
+            head = temp;
+            return head;
+        }
+        else{
+            while(fast!=NULL && fast->next!=NULL){
+                fast=fast->next;
+                slow=slow->next;
+            }
+            ListNode* temp1 = slow;
+            ListNode* temp2 = slow->next->next;
+            slow=slow->next;
+            delete slow;
+            temp1->next = temp2;
+            return head;
+        }
+    }
+};
