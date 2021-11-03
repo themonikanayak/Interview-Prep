@@ -1,0 +1,54 @@
+class Solution {
+public:
+    string decodeStringHelper(string s, int start, int& len) {
+        string decoded_string;
+        for(int i = start; i < s.size(); i++) {
+            
+            if(s[i] == ']') return decoded_string;
+            
+            // k[encoded_string].
+            // Parse string to find k.
+            if(isdigit(s[i])) {
+                
+                string temp;
+                len++;
+                
+                while(i < s.size() && isdigit(s[i])) {
+                    temp += s[i];
+                    i++;
+                    len++;
+                }
+            
+                int k = stoi(temp);
+                
+                // Recursively find the decoded string of the nested encoded string.
+                string t = decodeStringHelper(s, i + 1, len);
+                
+                // Add the nested decoded string k times to the outer decoded string.
+                for(int j = 0; j < k; j++) {
+                    decoded_string += t;
+                }
+                
+                i = len; 
+            }
+            // Otherwise add characters directly to the decoded_string.
+            else{
+                decoded_string += s[i];
+            } 
+            len++;
+        }
+        
+        return decoded_string;
+    }
+    string decodeString(string s) {
+        int len = 0;
+        string decoded_string;
+        
+        for(int i = 0; i < s.size(); i++) {
+            decoded_string += decodeStringHelper(s, i, len);
+            i += len;
+        }
+        
+        return decoded_string;
+    }
+};
