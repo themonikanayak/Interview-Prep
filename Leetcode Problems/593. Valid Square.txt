@@ -1,0 +1,25 @@
+class Solution {
+public:
+    double distanceBetweenPoints(vector<int>& p1, vector<int>& p2) {
+        return ((p1[0] - p2[0])*(p1[0] - p2[0]) + (p1[1] - p2[1])*(p1[1] - p2[1]));
+    }
+    
+    bool validSquare(vector<int>& p1, vector<int>& p2, vector<int>& p3, vector<int>& p4) {
+        double dist[6];
+        dist[0] = distanceBetweenPoints(p1, p2);
+        dist[1] = distanceBetweenPoints(p1, p3);
+        dist[2] = distanceBetweenPoints(p1, p4);
+        dist[3] = distanceBetweenPoints(p2, p3);
+        dist[4] = distanceBetweenPoints(p2, p4);
+        dist[5] = distanceBetweenPoints(p3, p4);
+        
+        sort(dist, dist + 6);
+        
+        if(dist[0] == dist[1] && dist[0] == dist[2] && dist[0] == dist[3] 
+            && dist[5] == dist[4] && dist[0] != dist[5]) {
+            return true;
+        }
+        
+        return false;
+    }
+};
