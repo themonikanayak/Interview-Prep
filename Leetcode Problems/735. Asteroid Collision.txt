@@ -1,0 +1,17 @@
+class Solution {
+public:
+    vector<int> asteroidCollision(vector<int>& asteroids) {
+        vector<int> res;
+        
+        for(const auto& asteriod : asteroids) {
+            bool destroyed = false;
+            
+            while(!res.empty() && res.back() > 0 && asteriod < 0 && !destroyed) {
+                if(res.back() >= -asteriod) destroyed = true;
+                if(res.back() <= -asteriod) res.pop_back();
+            }
+            if(!destroyed) res.push_back(asteriod);
+        }
+        return res;  
+    }
+};
