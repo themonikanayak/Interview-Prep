@@ -1,0 +1,35 @@
+class Solution {
+public:
+    int findRoot(vector<int>& parent, int x){
+        int curr_node = x;
+        
+        while(parent[curr_node] != curr_node) {
+            curr_node = parent[curr_node];
+        }
+        
+        return curr_node;
+    }
+    
+    vector<int> findRedundantConnection(vector<vector<int>>& edges) {
+        int n = edges.size();
+        vector<int> parent(n + 1);
+        
+        // Initialize the tree.
+        for (int i = 1; i <= n; i++) {
+            parent[i] = i;
+        }
+        
+        // Add edges one by one.
+        for(const auto& edge : edges) {
+            int root1 = findRoot(parent, edge[0]);
+            int root2 = findRoot(parent, edge[1]);
+            
+            if(root1 == root2) 
+                return edge;
+            
+            parent[root2] = root1;
+        }
+        
+        return {-1, -1};
+    }
+};
