@@ -1,0 +1,62 @@
+class DisjointSet {
+public:
+    DisjointSet(int len) {
+        parent.resize(len);  
+        for(int i = 0; i < len; i++) 
+            parent[i] = i;
+        
+         num_components = len;
+    }
+    
+    void union_(int x, int y) {
+        int r_x = find_(x);
+        int r_y = find_(y);
+        
+        parent[r_x] = parent[r_y];
+        num_components--;
+    }
+    
+    int find_(int x) {
+        while(x != parent[x])
+            x = parent[x];
+        
+        return x;
+    }
+    
+    int getNumComponents() {
+        return num_components;
+    }
+
+private:
+    vector<int> parent;
+    int num_components;
+};
+
+class Solution {
+public:
+    int makeConnected(int n, vector<vector<int>>& connections) {
+        
+        DisjointSet ds(n);
+        int extra_edge_cnt = 0;
+        
+        // Add edges.
+        for(int i = 0; i < connections.size(); i++) {
+            int x = connections[i][0];
+            int y = connections[i][1];
+            
+            // Extra edge?
+            if(ds.find_(x) == ds.find_(y))
+                extra_edge_cnt++;
+            else
+                // Connect edge.
+                ds.union_(x, y);
+        }
+        
+        int num_components = ds.getNumComponents();
+        
+        if(num_components - 1 > extra_edge_cnt)
+            return -1;
+        
+        return num_components - 1;
+    }
+};
