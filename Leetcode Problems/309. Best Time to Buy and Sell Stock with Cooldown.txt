@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int n = prices.size();
+        
+        // dp[i][0] : Buy on the ith day.
+        // dp[i][1] : Sell on the ith day.
+        // dp[i][2] : Cooldown on ith day.
+        vector<vector<int>> dp(2, vector<int> (3, 0));
+        dp[0%2][0%2] = dp[0%2][2%2] = 0;
+        dp[0%2][1%2] = -prices[0];
+        
+        for(int i = 1; i < n; i++) {
+            dp[i%2][0] = max(dp[(i - 1)%2][0], dp[(i - 1)%2][2]);
+            dp[i%2][1] = max(dp[(i - 1)%2][1], dp[(i - 1)%2][0] - prices[i]);
+            dp[i%2][2] = dp[(i - 1)%2][1] + prices[i];
+        }
+        
+        return max(dp[(n - 1)%2][0], dp[(n - 1)%2][2]);
+    }
+};
