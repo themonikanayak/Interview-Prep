@@ -1,0 +1,32 @@
+bool compare(string& a, string& b) {
+    string temp1 = a + b;
+    string temp2 = b + a;
+    
+    return temp1 > temp2;
+}
+
+class Solution {
+public:
+    string largestNumber(vector<int>& nums) {
+        vector<string> numsString;
+        
+        for(int i = 0; i < nums.size(); i++) {
+            numsString.push_back(to_string(nums[i]));
+        }
+        
+        sort(numsString.begin(), numsString.end(), compare);
+        
+        string res;
+        
+        for(int i = 0; i < numsString.size(); i++) {
+            res += numsString[i];
+        }
+        
+        res.erase(0, res.find_first_not_of('0'));
+        
+        if(res.size() == 0)
+            return "0";
+        
+        return res;
+    }
+};
