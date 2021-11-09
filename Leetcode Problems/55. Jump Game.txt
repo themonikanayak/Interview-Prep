@@ -1,0 +1,25 @@
+class Solution {
+public:
+    bool canJump(vector<int>& nums) {
+        
+        if(nums.size() < 2)
+            return true;
+        
+        for(int i = nums.size() - 2; i >= 0; i--) {
+            if(nums[i] == 0) {
+                int j = i - 1;
+                
+                while(j >= 0 && nums[j] < (i - j + 1)) {
+                    j--;
+                }
+                
+                if(j < 0)
+                    return false;
+                
+                i = j;
+            }
+        }
+        
+        return true;
+    }
+};
