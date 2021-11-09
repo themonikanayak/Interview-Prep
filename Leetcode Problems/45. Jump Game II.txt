@@ -1,0 +1,27 @@
+class Solution {
+public:
+    int jump(vector<int>& nums) {
+        int n = nums.size();
+        
+        if(n < 2){
+            return 0;
+        }
+        
+        int max_reach = nums[0], curr_reach = nums[0], jumps = 1;
+        for(int i = 1; i <= min(n, max_reach); i++){
+            
+            curr_reach = max(curr_reach, i + nums[i]);
+            
+            if(i == n - 1){
+                return jumps;
+            }
+            
+            if(i == max_reach){
+                max_reach = curr_reach;
+                jumps++;
+            }
+        }
+        
+        return 0;
+    }
+};
