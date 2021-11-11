@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int minStartValue(vector<int>& nums) {
+        
+        int start_val = max(1, 1 - nums[0]);
+        vector<int> prefix(nums.size(), 0);
+        
+        prefix[0] = start_val + nums[0];
+        
+        for(int i = 1; i < nums.size(); i++) {
+            prefix[i] += prefix[i - 1] + nums[i];
+            
+            if (prefix[i] < 1) {
+                start_val += (1 - prefix[i]);
+                prefix[i] = 1;
+            }
+        }
+        
+        return start_val;
+    }
+};
