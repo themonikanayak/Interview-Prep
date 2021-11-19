@@ -1,0 +1,15 @@
+class Solution {
+public:
+    int countSetBits(int n)
+    {
+        // Base Case.
+        if (n == 0)
+            return 0;
+        else
+            return 1 + countSetBits(n & (n - 1));
+    }
+    
+    int hammingDistance(int x, int y) {
+        return countSetBits(x ^ y);
+    }
+};
