@@ -1,0 +1,21 @@
+class Solution {
+public:
+    vector<int> sortedSquares(vector<int>& nums) {
+        
+        int n = nums.size();
+        vector<int> res(n,0);
+        int low = 0, high = n - 1,temp;
+        for(int i=n-1;i>=0;i--){
+            if(abs(nums[low])<=abs(nums[high])){
+                temp = nums[high];
+                high--;
+            }
+            else{
+                temp = nums[low];
+                low++;
+            }
+            res[i] = temp*temp;
+        }
+        return res;
+    }
+};
