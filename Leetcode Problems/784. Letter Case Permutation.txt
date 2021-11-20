@@ -1,0 +1,31 @@
+class Solution {
+public:
+    void letterCasePermutationHelper(int idx, string s, string contri, vector<string>& res) {
+        // Base Case.
+        if (idx >= s.size()) {
+            res.push_back(contri);
+            return;
+        }
+        
+        // Recursive Case.
+        if (isalpha(s[idx])) {
+            contri.push_back(toupper(s[idx]));
+            letterCasePermutationHelper(idx + 1, s, contri, res);
+            contri.pop_back();
+            contri.push_back(tolower(s[idx]));
+            letterCasePermutationHelper(idx + 1, s, contri, res);    
+        }
+        else {
+            contri.push_back(s[idx]);
+            letterCasePermutationHelper(idx + 1, s, contri, res);
+        }
+    }
+    vector<string> letterCasePermutation(string s) {
+        vector<string> res;
+        string contri;
+        
+        letterCasePermutationHelper(0, s, contri, res);
+        
+        return res;
+    }
+};
