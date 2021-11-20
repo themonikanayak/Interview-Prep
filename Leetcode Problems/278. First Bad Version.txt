@@ -1,0 +1,31 @@
+// The API isBadVersion is defined for you.
+// bool isBadVersion(int version);
+
+class Solution {
+public:
+    int firstBadVersion(int n) {
+        int low = 1, high = n, mid;
+             
+        //p(x): isBadVersion(x) 
+        //FFTTT
+        //Find the first True
+        while(low<high){
+            
+            //Find the middle: lower mid
+            mid = low + (high - low)/2;
+            
+            //Predicate Check
+            if(isBadVersion(mid)){
+                high = mid;
+            }
+            else{
+                low = mid + 1;
+            }
+        }
+        //Sanity Check
+        if(isBadVersion(low)){
+            return low;
+        }
+        return -1;
+    }
+};
