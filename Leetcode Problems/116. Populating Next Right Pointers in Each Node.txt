@@ -1,0 +1,53 @@
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* left;
+    Node* right;
+    Node* next;
+
+    Node() : val(0), left(NULL), right(NULL), next(NULL) {}
+
+    Node(int _val) : val(_val), left(NULL), right(NULL), next(NULL) {}
+
+    Node(int _val, Node* _left, Node* _right, Node* _next)
+        : val(_val), left(_left), right(_right), next(_next) {}
+};
+*/
+
+class Solution {
+public:
+    Node* connect(Node* root) {
+        
+        // Edge Case.
+        if (!root)
+            return root;
+        
+        // BFS.
+        queue<pair<Node*, int>> q;
+        
+        // Initialize the queue.
+        q.push({root, 0});
+        
+        while(!q.empty()) {
+            pair<Node*, int> t = q.front();
+            q.pop();
+            
+            // Connect.
+            if (!q.empty() && q.front().second == t.second) 
+                t.first->next = q.front().first;
+            else
+                t.first->next = NULL;
+            
+            // Push children.
+            if (t.first->left) 
+                q.push({t.first->left, t.second + 1});
+            
+            if (t.first->right)
+                q.push({t.first->right, t.second + 1});
+        }
+        
+        return root;
+    }
+};
