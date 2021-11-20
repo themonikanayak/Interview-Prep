@@ -1,0 +1,15 @@
+class Solution {
+public:
+    int hammingWeight(uint32_t n) {
+        int cnt_bits = 0;
+        
+        while (n > 0) {
+            if (n % 2)
+                cnt_bits++;
+            
+            n /= 2;
+        }
+        
+        return cnt_bits;
+    }
+};
