@@ -1,0 +1,30 @@
+class Solution {
+public:
+    vector<vector<int>> neighbors = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+    void dfs(int i, int j, vector<vector<int>>& image, vector<vector<bool>>& visited, 
+            int newColor) {
+        visited[i][j] = true;
+        
+        // Visit the neighbors.
+        for (const auto& nbr : neighbors) {
+            int x = i + nbr[0];
+            int y = j + nbr[1];
+            
+            if (x < 0 || y < 0 || x >= image.size() || y >= image[0].size() ||
+               visited[x][y] || image[x][y] != image[i][j]) 
+                continue;
+            
+            dfs(x, y, image, visited, newColor);
+            image[x][y] = newColor;
+        }
+    }
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int newColor) {
+        int n = image.size(), m = image[0].size();
+        vector<vector<bool>> visited(n, vector<bool> (m, false));
+        
+        dfs(sr, sc, image, visited, newColor);
+        image[sr][sc] = newColor;
+        
+        return image;
+    }
+};
