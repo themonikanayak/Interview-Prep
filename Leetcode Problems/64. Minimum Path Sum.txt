@@ -1,0 +1,34 @@
+class Solution {
+public:
+    vector<vector<int>> lowerNbrs = {{1, 0}, {0, 1}};
+    int minPathSum(vector<vector<int>>& grid) {
+        int n = grid.size(), m = grid[0].size();
+        vector<vector<int>> dp(n, vector<int> (m, 0));
+        
+        // Fill the dp array.
+        for (int i = n - 1; i >= 0; i--) {
+            for (int j = m - 1; j >= 0; j--) {
+                int next_sum = INT_MAX;
+                
+                // Update next_sum using dp sum of right and down moves.
+                for (const auto& nbr : lowerNbrs) {
+                    int x = i + nbr[0];
+                    int y = j + nbr[1];
+                    
+                    if (x < 0 || y < 0 || x >= n || y >= m)
+                        continue;
+                    
+                    next_sum = min(next_sum, dp[x][y]);
+                }
+                
+                if (next_sum == INT_MAX) 
+                    next_sum = 0;
+                
+                // Fill the current element in the dp array.
+                dp[i][j] = grid[i][j] + next_sum;
+            }
+        }
+        
+        return dp[0][0];
+    }
+};
