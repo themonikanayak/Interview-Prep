@@ -1,0 +1,17 @@
+string Solution::longestCommonPrefix(vector<string> &A) {
+    string prefix;
+    int pos = 0;
+    char curr_char;
+    while(true) {
+        if (pos >= A[0].size())
+            return prefix;
+
+        curr_char = A[0][pos];
+        for (int i = 1; i < A.size(); i++) {
+            if (pos >= A[i].size() || A[i][pos] != curr_char)
+                return prefix;
+        }
+        prefix.push_back(curr_char);
+        pos++;
+    } 
+}
