@@ -1,0 +1,25 @@
+class Solution {
+public:
+    void subsetsWithDupHelper(int i, vector<int>& nums, 
+                              vector<int> contri, vector<vector<int>>& res) {
+        if(i >= nums.size()) {
+            res.push_back(contri);
+            return;
+        }
+        
+        int x = i;
+        while(x < nums.size() && nums[x] == nums[i]) {
+            x++;
+        }
+        subsetsWithDupHelper(x, nums, contri, res);
+        contri.push_back(nums[i]);
+        subsetsWithDupHelper(i + 1, nums, contri, res);
+    }
+    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+        sort(nums.begin(), nums.end());
+        vector<int> contri;
+        vector<vector<int>> res;
+        subsetsWithDupHelper(0, nums, contri, res);
+        return res;
+    }
+};
