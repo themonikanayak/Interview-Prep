@@ -1,0 +1,39 @@
+string Solution::minWindow(string A, string B) {
+    
+    map<char, int> need;
+    map<char, int> matched;
+    int match_cnt = 0, i , j = 0, min_length = INT_MAX;
+    string min_window_string;
+    for(int i = 0; i < B.size(); i++) {
+        need[B[i]]++;
+    }
+
+    for(i = 0; i < A.size(); i++) {
+        if (need[A[i]] == 0)
+            continue;
+        matched[A[i]]++;
+
+        if(matched[A[i]] <= need[A[i]]) {
+            match_cnt++;
+        }
+
+        if(match_cnt == B.length()) {
+
+            while (matched[A[j]] == 0 || matched[A[j]] > need[A[j]])
+            {
+                if (matched[A[j]] > need[A[j]])
+                    matched[A[j]]--;
+                ++j;
+            }
+
+            int curr_length = i - j + 1; 
+            if (curr_length < min_length)
+            {
+                min_window_string.clear();
+                min_window_string.append(A.begin()+j, A.begin()+i+1);
+                min_length = curr_length;
+            }
+        }
+    }
+    return min_window_string;
+}
