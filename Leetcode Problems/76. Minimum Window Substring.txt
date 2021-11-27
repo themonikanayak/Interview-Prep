@@ -1,0 +1,40 @@
+class Solution {
+public:
+    string minWindow(string s, string t) {
+        map<char, int> need;
+        map<char, int> found;
+        int min_length = INT_MAX, curr_length, i , j = 0, match_cnt = 0, req_len = t.size();
+        string res;
+        
+        for(i = 0; i < req_len; i++) {
+            need[t[i]]++;
+        }
+        
+        for(i = 0; i < s.size(); i++) {
+            if(need[s[i]] == 0)
+                continue;
+            
+            found[s[i]]++;
+            
+            if(found[s[i]] <= need[s[i]])
+                match_cnt++;
+            
+            if(match_cnt == req_len) {
+                while(need[s[j]] == 0 || found[s[j]] > need[s[j]]) {
+                    if(found[s[j]] > need[s[j]])
+                        found[s[j]]--;
+                    j++;
+                }
+                
+                curr_length = i - j + 1;
+                
+                if(curr_length < min_length) {
+                    min_length = curr_length;
+                    res = s.substr(j, curr_length);
+                }
+            }
+        }
+        
+        return res;
+    }
+};
