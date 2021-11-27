@@ -1,0 +1,36 @@
+class Solution {
+public:
+    int shipWithinDays(vector<int>& weights, int days) {
+        int n = weights.size(), curr_days = 0, 
+            lo = INT_MIN, hi = 0, mid, curr_capacity, num_of_days;
+        
+        for (int i = 0; i < n; i++) {
+            lo = max(lo, weights[i]);
+            hi += weights[i];
+        }
+        
+        while(lo < hi) {
+            mid = lo + (hi - lo)/2;
+            
+            curr_days = 0, curr_capacity = 0, num_of_days = 0;
+            
+            for (int i = 0; i < n; i++) {
+                curr_capacity += weights[i];
+                
+                if (curr_capacity > mid) {
+                    curr_capacity = weights[i];
+                    num_of_days++;
+                }
+            }
+            if (curr_capacity > 0)
+                num_of_days++;
+            
+            if (num_of_days <= days)
+                hi = mid;
+            else
+                lo = mid + 1;
+        }
+        
+        return lo;
+    }
+};
