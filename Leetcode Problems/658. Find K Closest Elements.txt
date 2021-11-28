@@ -1,0 +1,22 @@
+class Solution {
+public:
+    vector<int> findClosestElements(vector<int>& arr, int k, int x) {
+        int n = arr.size(), lo = 0, hi = n - k, mid;
+        
+        vector<int> res;
+        
+        while(lo < hi) {
+            mid = lo + (hi - lo)/2;
+            
+            if (x - arr[mid] <= arr[mid+k] - x) 
+                hi = mid;
+            else
+                lo = mid + 1;
+        }
+        
+        for (int i = lo; i < lo + k; i++)
+            res.push_back(arr[i]);
+        
+        return res;
+    }
+};
