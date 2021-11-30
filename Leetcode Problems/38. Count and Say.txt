@@ -1,0 +1,25 @@
+class Solution {
+public:
+    string countAndSay(int n) {
+        
+        if (n == 1)
+            return "1";
+        
+        string s = countAndSay(n - 1), res;
+        int len = s.size(), i = 0, j;
+        
+        while (i < len) {
+            j = i;
+            
+            while (j < len && s[i] == s[j]) 
+                j++;
+            
+            res += to_string(j - i);
+            res += s[i];
+            
+            i = j;
+        }
+        
+        return res;
+    }
+};
