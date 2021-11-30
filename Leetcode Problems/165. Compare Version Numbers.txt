@@ -1,0 +1,49 @@
+class Solution {
+public:
+    int compareVersion(string version1, string version2) {
+        int i = 0, j = 0;
+        string t1, t2;
+        
+        while (i < version1.size() && j < version2.size()) {
+            
+            while (i < version1.size() && version1[i] != '.') 
+                t1 += version1[i++];
+            
+            while (j < version2.size() && version2[j] != '.')
+                t2 += version2[j++];
+            
+            if (stoi(t1) < stoi(t2))
+                return -1;
+            
+            if (stoi(t1) > stoi(t2))
+                return 1;
+            
+            t1.clear(); t2.clear();
+            i++; j++;
+        }
+        
+        while (j < version2.size()) {
+ 
+            while (j < version2.size() && version2[j] != '.')
+                t2 += version2[j++];
+            
+            if (stoi(t2) > 0)
+                return -1;
+            
+            t2.clear(); j++;
+        }
+        
+        while (i < version1.size()) {
+ 
+            while (i < version1.size() && version1[i] != '.')
+                t1 += version1[i++];
+            
+            if (stoi(t1) > 0)
+                return 1;
+            
+            t1.clear(); i++;
+        }
+        
+        return 0;
+    }
+};
