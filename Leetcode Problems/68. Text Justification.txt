@@ -1,0 +1,78 @@
+class Solution {
+public:
+    vector<string> fullJustify(vector<string>& words, int maxWidth) {
+        vector<string> res;
+        
+        int n = words.size(), i = 0, j = 0, len = 0, start = 0, space = 0, extra_space;
+        
+        while (i < n) {
+            
+            len = words[i].size();
+            start = i;
+            i++;
+            
+            while (i < n && (len + words[i].size() + 1 <= maxWidth)) {
+                len += words[i].size() + 1;
+                i++;
+            }
+            
+            string str;
+            
+            if ((i - start - 1) == 0) {
+                str += words[start];
+                
+                for (int k = 0; k < maxWidth - words[start].size(); k++) {
+                    str.push_back(' ');
+                }
+                
+                res.push_back(str);
+                str.clear();
+            }
+            else if (i < n) {
+                
+                space = (maxWidth - len)/(i - start - 1);
+                extra_space = (maxWidth - len)%(i - start - 1);
+
+                for (j = start; j < i; j++) {
+                    
+                    if (j == i - 1) {
+                        str += words[j];
+                    }
+                    else if ((j - start + 1) > extra_space) {
+                        str += words[j];
+                        for (int k = 0; k <= space; k++) 
+                            str.push_back(' ');
+                    }
+                    else {
+                        str += words[j];
+                        for (int k = 0; k <= space + 1; k++) 
+                            str.push_back(' ');
+                    }
+                }
+                
+                res.push_back(str);
+                str.clear();
+            }
+            else {
+                space = (maxWidth - len);
+
+                for (j = start; j < i; j++) {
+                    if (j == i - 1)
+                        str += words[j];
+                    else {
+                        str += words[j];
+                        str.push_back(' ');
+                    }
+                }
+                
+                for (int k = 0; k < space; k++) 
+                    str.push_back(' ');
+                    
+                res.push_back(str);
+                str.clear();
+            }   
+        }
+
+        return res;
+    }
+};
