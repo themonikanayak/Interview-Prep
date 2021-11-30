@@ -1,0 +1,47 @@
+class Solution {
+public:
+    int strStr(string haystack, string needle) {
+        int n = haystack.size(), m = needle.size(), i, j = 1;
+        
+        if (m == 0)
+            return 0;
+        
+        vector<int> lps(m, 0);
+        
+        // Compute LPS array.
+        for (i = 1; i < m; i++) {
+            j = lps[i - 1];
+            
+            while (j > 0 && needle[i] != needle[j]) {
+                j = lps[j - 1];
+            }
+            
+            if (needle[i] == needle[j])
+                lps[i] = j + 1;
+            else
+                lps[i] = 0;
+        }
+        
+        // KMP Algorithm.
+        i = 0, j = 0;
+        while (i < n) {
+            
+            // Match characters.
+            while (i < n && j < m && haystack[i] == needle[j]) {
+                i++; j++;
+            }
+            
+            // needle found in haystack.
+            if (j == m)
+                return i - m;
+            
+            // needle not found.
+            if (j == 0)
+                i++;
+            else
+                j = lps[j - 1];
+        }
+        
+        return -1;
+    }
+};
