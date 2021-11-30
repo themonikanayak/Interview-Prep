@@ -1,0 +1,76 @@
+class Solution {
+public:
+    string solveEquation(string equation) {
+        int left = 0, right = 0, left_x = 0, right_x = 0, i = 0, n = equation.size();
+        string t1;
+        
+        while (i < n && equation[i] != '=') {
+            
+            if (equation[i] == '+' || equation[i] == '-')
+                t1 += equation[i++];
+            
+            while (i < n && equation[i] <= '9' && equation[i] >= '0')
+                t1 += equation[i++];
+            
+            if (equation[i] == 'x') {
+                if (t1.size()==1 && (t1[0] == '-' || t1[0] == '+')) {
+                    if (t1[0] == '+')
+                        left_x++;
+                    else
+                        left_x--;
+                }
+                else if (t1.size())
+                    left_x += stoi(t1);
+                else
+                    left_x++;
+                i++;
+            }
+            else {
+                left += stoi(t1);
+            }
+            
+            t1.clear();
+        }
+        
+        if(equation[i] == '=')
+            i++;
+        
+        while (i < n) {
+            
+            if (equation[i] == '+' || equation[i] == '-')
+                t1 += equation[i++];
+            
+            while (i < n && equation[i] <= '9' && equation[i] >= '0')
+                t1 += equation[i++];
+            
+            if (i < n && equation[i] == 'x') {
+                if (t1.size()==1 && (t1[0] == '-' || t1[0] == '+')) {
+                    if (t1[0] == '+')
+                        right_x++;
+                    else
+                        right_x--;
+                }
+                else if (t1.size())
+                    right_x += stoi(t1);
+                else
+                    right_x++;
+                i++;
+            }
+            else {
+                if (t1.size())
+                    right += stoi(t1);
+                else
+                    right++;
+            }
+            
+            t1.clear();
+        }
+        
+        if (left == right && left_x == right_x) 
+            return "Infinite solutions";
+        else if ((right - left) != 0 && (right_x - left_x) == 0)
+            return "No solution";
+        else
+            return "x=" + to_string((right - left) / (left_x - right_x)); 
+    }
+};
