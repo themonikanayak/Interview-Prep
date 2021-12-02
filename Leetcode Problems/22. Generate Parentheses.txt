@@ -1,0 +1,34 @@
+class Solution {
+public:
+    void generateParenthesisHelper(int a, int b, int n, string& contri, vector<string>& res) {
+        
+        // More opening brackets than closing brackets.
+        if (a < b) 
+            return;
+        
+        // Base Case.
+        if (a == b && a == n) {
+            res.push_back(contri);
+            return;
+        }
+        
+        if (a < n) {
+            contri.push_back('(');
+            generateParenthesisHelper(a + 1, b, n, contri, res);
+            contri.pop_back();
+        }
+ 
+        if (b < a) {
+            contri.push_back(')');
+            generateParenthesisHelper(a, b + 1, n, contri, res);  
+            contri.pop_back();
+        }
+           
+    }
+    vector<string> generateParenthesis(int n) {
+        string contri;
+        vector<string> res;
+        generateParenthesisHelper(0, 0, n, contri, res);  
+        return res;
+    }
+};
