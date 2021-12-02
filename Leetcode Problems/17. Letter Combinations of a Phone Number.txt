@@ -1,0 +1,29 @@
+class Solution {
+public:
+    vector<string> phone_number = {"", "", "abc", "def", "ghi", "jkl", "mno",
+                                  "pqrs", "tuv", "wxyz"};  
+    
+    void letterCombinationsHelper(int i, string& digits, string contri, 
+                                  vector<string>& res) {
+        
+        // Base Case.
+        if (i >= digits.size()) {
+            if (contri.size())
+                res.push_back(contri);
+            return;
+        }
+        
+        // Recursive Case.
+        for (const auto& letter : phone_number[digits[i] - '0']) {
+            contri.push_back(letter);
+            letterCombinationsHelper(i + 1, digits, contri, res);
+            contri.pop_back();
+        }
+    }
+    vector<string> letterCombinations(string digits) {
+        string contri;
+        vector<string> res;
+        letterCombinationsHelper(0, digits, contri, res);
+        return res;
+    }
+};
