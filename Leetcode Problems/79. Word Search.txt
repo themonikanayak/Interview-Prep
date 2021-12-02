@@ -1,0 +1,56 @@
+class Solution {
+public:
+    vector<vector<int>> neighbors = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+    bool existHelper(int i, int j, vector<vector<char>>& board, string word, 
+                     string& contri, vector<vector<bool>>& visited) {
+        
+        if (contri == word) 
+            return true;
+        
+        if (contri.size() >= word.size())
+            return false;
+        
+        bool t = false;
+        
+        for (const auto& nbr : neighbors) {
+            int x = i + nbr[0];
+            int y = j + nbr[1];
+            
+            if (x < 0 || y < 0 || x >= board.size() || y >= board[0].size()
+               || visited[x][y])
+                continue;
+            
+            contri.push_back(board[x][y]);
+            visited[x][y] = true;
+            t = t || existHelper(x, y, board, word, contri, visited);
+            visited[x][y] = false;
+            contri.pop_back();
+        }
+        
+        return t;
+    }
+    bool exist(vector<vector<char>>& board, string word) {
+        
+        vector<vector<bool>> visited(board.size(), vector<bool> (board[0].size(), false));
+        string contri;
+        
+        for (int i = 0; i < board.size(); i++) {
+            for (int j = 0; j < board[0].size(); j++) {
+                
+                if (word[0] != board[i][j])
+                    continue;
+                
+                visited[i][j] = true;
+                contri.push_back(board[i][j]);
+                
+                if (existHelper(i, j, board, word, contri, visited))
+                    return true;
+                
+                visited[i][j] = false;
+                contri.pop_back();
+            }
+        }
+        
+        return false;
+    }
+};
