@@ -1,0 +1,58 @@
+class WordDictionary {
+public:
+    
+    struct TrieNode{
+        TrieNode* next[26] = {NULL};
+        bool is_end_here_ = false;
+    };
+    
+    TrieNode* root;
+    
+    WordDictionary() {
+        root = new TrieNode();
+    }
+    
+    void addWord(string word) {
+        TrieNode* temp = root;
+        
+        for (const auto& c : word) {
+            if (temp->next[c - 'a'] == NULL) temp->next[c - 'a'] = new TrieNode;
+            temp = temp->next[c - 'a'];
+        }
+        
+        temp->is_end_here_ = true;
+    }
+    
+    bool searchHelper(string suffix, TrieNode* curr) {
+        for (int i = 0; i < suffix.size(); i++) {
+            if (suffix[i] != '.') {
+                if (curr->next[suffix[i] - 'a'] == NULL) return false;
+                curr = curr->next[suffix[i] - 'a'];
+            }
+            else {
+                bool t = false;
+                for (int j = 0; j < 26; j++) {
+                    if (curr->next[j]) {
+                        t = t || searchHelper(suffix.substr(i + 1, suffix.size() - i - 1), 
+                                     curr->next[j]);
+                    }
+                    if (t) return t;
+                }
+                return t;
+            }
+        }
+        
+        return curr->is_end_here_;
+    }
+    
+    bool search(string word) {
+        return searchHelper(word, root);
+    }
+};
+
+/**
+ * Your WordDictionary object will be instantiated and called as such:
+ * WordDictionary* obj = new WordDictionary();
+ * obj->addWord(word);
+ * bool param_2 = obj->search(word);
+ */
