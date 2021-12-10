@@ -1,0 +1,58 @@
+class Trie {
+public:
+    /** Initialize the data structure **/
+    
+    // Structure of a trie.
+    struct TrieNode {
+        TrieNode* next[26] = {NULL};
+        bool is_end_here_ = false;
+    };
+    
+    TrieNode* root;
+    
+    Trie() {
+        // Initialize the root node.
+        root = new TrieNode();
+    }
+    
+    void insert(string word) {
+        TrieNode* temp = root;
+        
+        for (const auto& c : word) {
+            if (temp->next[c - 'a'] == NULL) temp->next[c - 'a'] = new TrieNode;
+            temp = temp->next[c - 'a'];
+        }
+        
+        temp->is_end_here_ = true;
+    }
+    
+    bool search(string word) {
+        TrieNode* temp = root;
+        
+        for (const auto& c : word) {
+            if (temp->next[c - 'a'] == NULL) return false;
+            temp = temp->next[c - 'a'];
+        }
+        
+        return temp->is_end_here_;
+    }
+    
+    bool startsWith(string prefix) {
+        TrieNode* temp = root;
+        
+        for (const auto& c : prefix) {
+            if (temp->next[c - 'a'] == NULL) return false;
+            temp = temp->next[c - 'a'];
+        }
+        
+        return true;
+    }
+};
+
+/**
+ * Your Trie object will be instantiated and called as such:
+ * Trie* obj = new Trie();
+ * obj->insert(word);
+ * bool param_2 = obj->search(word);
+ * bool param_3 = obj->startsWith(prefix);
+ */
