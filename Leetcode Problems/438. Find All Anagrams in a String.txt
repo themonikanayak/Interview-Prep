@@ -1,0 +1,32 @@
+class Solution {
+public:
+    string getGroupId(string s){
+        vector<int> v(26,0);
+        string ans = "";
+        for(int i=0;i<s.size();i++){
+            v[s[i]-'a']++;
+        }
+        for(int i=0;i<26;i++){
+            ans += to_string(v[i]) + "#"; 
+        }
+        
+        return ans;
+    }
+    vector<int> findAnagrams(string s, string p) {
+        
+        if (p.size() > s.size())
+            return {};
+        
+        vector<int> res;
+        int n = p.size();
+        string id = getGroupId(p);
+        
+        for (int i = 0; i < s.size() - n + 1; i++) {   
+            string curr = s.substr(i, n);
+            if (getGroupId(curr) == id) 
+                res.push_back(i);
+        }
+        
+        return res;
+    }
+};
