@@ -1,0 +1,27 @@
+class Solution {
+public:
+    void permuteUniqueHelper(int start, vector<int> nums, vector<vector<int>>& res) {
+        
+        if (start == nums.size() - 1) {
+            res.push_back(nums);
+            return;
+        }
+        
+        for (int i = start; i < nums.size(); i++) {
+            if (i != start && nums[i] == nums[start]) continue;
+            
+            swap(nums[start], nums[i]);
+            permuteUniqueHelper(start + 1, nums, res);
+        
+        }
+    } 
+    vector<vector<int>> permuteUnique(vector<int>& nums) {
+        sort(nums.begin(), nums.end());
+ 
+        vector<vector<int>> res;
+        
+        permuteUniqueHelper(0, nums, res);
+        
+        return res;
+    }
+};
