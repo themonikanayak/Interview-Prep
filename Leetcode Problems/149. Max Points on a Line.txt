@@ -1,0 +1,36 @@
+class Solution {
+public:
+    int maxPoints(vector<vector<int>>& points) {
+        
+        if(points.size() <= 2) 
+            return points.size();
+        
+        int max_count = 0;
+        for (int i = 0; i < points.size() - 1; i++) {
+            
+            int vertical_lines = 1, count = 1, duplicates = 0;
+            unordered_map<double,int> m;
+            
+            for (int j = i + 1; j < points.size(); j++) {
+                
+                int x1 = points[i][0], y1 = points[i][1],
+                    x2 = points[j][0], y2 = points[j][1];
+                
+                if (x1 == x2) {
+                    if(y1 == y2) 
+                        duplicates++;
+                    else 
+                        vertical_lines++;
+                }
+                else {
+                    double slope = (y2 - y1)*1.0/(x2 - x1);
+                    m[slope] == 0 ? m[slope] = 2 : m[slope]++;
+                    count = max(count, m[slope]);
+                }
+            }    
+            count = max(count + duplicates, vertical_lines + duplicates);
+            max_count = max(max_count, count);
+        }
+        return max_count;
+    }
+};
