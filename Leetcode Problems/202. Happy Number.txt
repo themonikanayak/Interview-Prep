@@ -1,0 +1,34 @@
+class Solution {
+public:
+    int getNext(int n) {
+        int ans = 0, t;
+        
+        while (n > 0) {
+            t = n % 10;
+            n /= 10;
+            
+            ans += t * t;
+        }
+        
+        return ans;
+    }
+    bool isHappy(int n) {
+        unordered_map<int, int> m;
+
+        int next_num = n;
+        m[next_num]++;
+        
+        while (next_num != 1) {
+            next_num = getNext(n);
+            
+            if (m.find(next_num) == m.end()) 
+                m[next_num]++;
+            else 
+                return false;
+            
+            n = next_num;
+        }
+
+        return true;
+    }
+};
