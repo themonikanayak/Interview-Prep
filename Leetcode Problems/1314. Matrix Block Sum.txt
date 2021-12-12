@@ -1,0 +1,35 @@
+class Solution {
+public:
+    vector<vector<int>> matrixBlockSum(vector<vector<int>>& mat, int k) {
+        int n = mat.size(), m = mat[0].size(), i, j;
+        vector<vector<int>> dp(n + 1, vector<int> (m + 1, 0));
+        vector<vector<int>> res(n, vector<int> (m, 0));
+        
+        for (i = 1; i <= n; i++) {
+            for (j = 1; j <= m; j++) {
+                dp[i][j] = dp[i - 1][j] + dp[i][j - 1] - 
+                            dp[i - 1][j - 1] + mat[i - 1][j - 1];
+            }
+        }
+        
+        for (i = 1; i <= n; i++) {
+            for (j = 1; j <= m; j++) {
+                int x1 = max(i - k - 1, 0), x2 = min(i + k, n), 
+                    y1 = max(j - k - 1, 0), y2 = min(j + k, m);
+                
+                res[i - 1][j - 1] = dp[x2][y2];
+                
+                if (x1 != 0 && y1 != 0) {
+                    res[i - 1][j - 1] += dp[x1][y1] - dp[x1][y2] - dp[x2][y1];
+                    
+                }
+                else if (x1 != 0) 
+                    res[i - 1][j - 1] -= dp[x1][y2];
+                else if (y1 != 0) 
+                    res[i - 1][j - 1] -= dp[x2][y1];
+            }
+        }
+        
+        return res;
+    }
+};
