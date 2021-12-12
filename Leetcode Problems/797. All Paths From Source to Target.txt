@@ -1,0 +1,27 @@
+class Solution {
+public:
+    void dfs(int start, vector<vector<int>>& graph, vector<int> contri,
+            vector<vector<int>>& res) {
+        
+        contri.push_back(start);
+        
+        if (start == graph.size() - 1) {
+            res.push_back(contri);
+            return;
+        }
+        
+        for (const auto& nbr : graph[start]) {
+            dfs(nbr, graph, contri, res);
+        }
+        
+    }
+    vector<vector<int>> allPathsSourceTarget(vector<vector<int>>& graph) {
+        
+        vector<int> contri;
+        vector<vector<int>> res;
+        
+        dfs(0, graph, contri, res);
+        
+        return res;
+    }
+};
