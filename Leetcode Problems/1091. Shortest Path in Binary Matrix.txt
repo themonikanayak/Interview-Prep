@@ -1,0 +1,41 @@
+class Solution {
+public:
+    vector<vector<int>> dirs = {{1, 0}, {0, 1}, {-1, 0}, {0, -1},
+                                {1, 1}, {-1, -1}, {-1, 1}, {1, -1}};
+    
+    int shortestPathBinaryMatrix(vector<vector<int>>& grid) {
+        
+        // Edge Case.
+        if (grid[0][0] == 1) return -1;
+        
+        int n = grid.size(), m = grid[0].size();
+        
+        queue<vector<int>> q;
+        q.push({0, 0, 1});
+        
+        // Mark as visited.
+        grid[0][0] = 1; 
+        
+        // BFS.
+        while(!q.empty()) {
+            vector<int> t = q.front();
+            q.pop();
+            
+            if (t[0] == n - 1 && t[1] == m - 1) return t[2];
+            
+            for (const auto& dir : dirs) {
+                int x = t[0] + dir[0];
+                int y = t[1] + dir[1];
+                
+                if (x < 0 || y < 0 || x >= n || y >= m 
+                   || grid[x][y] == 1)
+                    continue;
+                
+                q.push({x, y, t[2] + 1});
+                grid[x][y] = 1;
+            }
+        }
+        
+        return -1;
+    }
+};
