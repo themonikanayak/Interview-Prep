@@ -1,0 +1,30 @@
+class Solution {
+public:
+    bool validMountainArray(vector<int>& arr) {
+        
+        // Array with length less than 3 is not a mountain array.
+        if (arr.size() < 3) return false;
+        
+        int n = arr.size(), pos = -1, i;
+        
+        // Strictly Increasing region.
+        for (i = 1; i < n; i++) {
+            if (arr[i] == arr[i - 1]) 
+                return false;
+            else if (arr[i] < arr[i - 1]) {
+                pos = i;
+                break;
+            }
+        }
+        
+        // If the whole array is strictly increasing/decreasing.
+        if (pos == -1 || pos == 1) return false;
+        
+        // Strictly decreasing region.
+        for (i = pos; i < n; i++) {
+            if (arr[i] >= arr[i - 1]) return false;
+        }
+        
+        return true;
+    }
+};
