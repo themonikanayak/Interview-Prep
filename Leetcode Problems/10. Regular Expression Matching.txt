@@ -1,0 +1,29 @@
+class Solution {
+public:
+    bool isMatchHelper(int i, int j, string& s, string& p, 
+                       map<pair<int, int>, bool>& cache) {
+        
+        if (cache.find({i, j}) != cache.end()) return cache[{i, j}];
+        
+        if (i >= s.size() && j >= p.size()) return cache[{i, j}] = true;
+        
+        if (j >= p.size()) return cache[{i, j}] = false;
+        
+        bool match = (i < s.size() && (s[i] == p[j] || p[j] == '.'));
+        
+        if ((j + 1) < p.size() && p[j + 1] == '*') {
+            return cache[{i, j}] = isMatchHelper(i, j + 2, s, p, cache) ||
+                   (match && isMatchHelper(i + 1, j, s, p, cache));
+        }
+        
+        if (match) 
+            return cache[{i, j}] = isMatchHelper(i + 1, j + 1, s, p, cache);
+        return cache[{i, j}] = false;
+    }
+    bool isMatch(string s, string p) {
+            
+        map<pair<int, int>, bool> cache;
+        
+        return isMatchHelper(0, 0, s, p, cache);
+    }
+};
