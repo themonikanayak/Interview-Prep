@@ -1,0 +1,45 @@
+class Solution {
+public:
+    
+    vector<int> replaceNonCoprimes(vector<int>& nums) {
+        stack<int> st;
+        int n = nums.size(), t, x;
+        st.push(nums[0]);
+        
+        for (int i = 1; i < n; i++) {
+            t = st.top();
+            
+            if (__gcd(t, nums[i]) == 1) {
+                st.push(nums[i]);
+            }
+            else {
+                st.pop();
+                x = (t / gcd(t, nums[i])) * nums[i];
+                st.push(x);
+                while (st.size() > 1) {
+                    t = st.top();
+                    st.pop();
+                    x = st.top();
+                    if (__gcd(t, x) == 1) {
+                        st.push(t);
+                        break;
+                    }
+                    else {
+                        st.pop();
+                        x = (t / gcd(t, x)) * x;
+                        st.push(x);
+                    }
+                }
+            }
+        }
+        
+        nums.clear();
+        
+        while(!st.empty()) {
+            nums.push_back(st.top());
+            st.pop();
+        }
+        reverse(nums.begin(), nums.end());
+        return nums;
+    }
+};
