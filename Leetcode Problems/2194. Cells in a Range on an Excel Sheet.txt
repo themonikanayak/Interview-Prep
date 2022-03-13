@@ -1,0 +1,20 @@
+class Solution {
+public:
+    vector<string> cellsInRange(string s) {
+        int c1 = (s[0] - 'A'), c2 = (s[3] - 'A');
+        int n1 = (s[1] - '0'), n2 = (s[4] -'0');
+        
+        vector<string> res;
+        string t;
+        
+        for (int i = c1; i <= c2; i++) {
+            for (int j = n1; j <= n2; j++) {
+                t = i + 'A';
+                t += (j + '0');
+                res.push_back(t);
+            }
+        }
+        
+        return res;
+    }
+};
