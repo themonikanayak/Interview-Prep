@@ -1,0 +1,49 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* helper(int root, map<int, pair<int, int>>& tree) {
+        
+        if (root == 0) return NULL;
+        
+        TreeNode* t = new TreeNode(root);
+        t->left = helper(tree[root].first, tree);
+        t->right = helper(tree[root].second, tree);
+        
+        return t;
+    }
+    
+    TreeNode* createBinaryTree(vector<vector<int>>& descriptions) {
+        map<int, pair<int, int>> tree;
+        int n = descriptions.size(); 
+        map<int, int> notRoot;
+        
+        for (int i = 0; i < n; i++) {
+            if (tree.find(descriptions[i][0]) == tree.end()) tree[descriptions[i][0]] = {0, 0};
+            if (descriptions[i][2] == 1) tree[descriptions[i][0]].first = descriptions[i][1];
+            else tree[descriptions[i][0]].second = descriptions[i][1];
+            
+            notRoot[descriptions[i][1]]++;
+        }
+        
+        int root = 0;
+        
+        for (const auto& it : tree) {
+            if (notRoot.find(it.first) == notRoot.end()) {
+                root = it.first;
+                break;
+            }
+        }
+        
+        return helper(root, tree);
+    }
+};
