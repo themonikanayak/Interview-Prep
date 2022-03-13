@@ -1,0 +1,51 @@
+class Solution {
+public:
+    long long minimalKSum(vector<int>& nums, int k) {
+        sort(nums.begin(), nums.end());
+        long long ans = 0, cnt = 0, n = nums.size(), l, r, x, y;
+        
+        for (long long i = 0; i < n; i++) {
+            if (i == 0) {
+                l = 1; r = nums[i] - 1;
+                x = r - l + 1;
+                
+                if (x <= 0) continue;
+                if ((x + cnt) > k) {
+                    r = k - cnt - 1 + l;
+                    cnt = k;
+                    ans += -1*(l * (l - 1)) / 2 + (r * (r + 1)) / 2;
+                }
+                else {
+                    cnt += x;
+                    ans += -1*(l * (l - 1)) / 2 + (r * (r + 1)) / 2;
+                }
+            }
+            else {
+                l = nums[i - 1] + 1;
+                r = nums[i] - 1;
+                
+                x = r - l + 1;
+                
+                if (x <= 0) continue;
+                if ((x + cnt) > k) {
+                    r = k - cnt - 1 + l;
+                    cnt = k;
+                    ans += -1*(l * (l - 1)) / 2 + (r * (r + 1)) / 2;
+                }
+                else {
+                    cnt += x;
+                    ans +=  -1*(l * (l - 1)) / 2 + (r * (r + 1)) / 2;
+                }
+            }
+            
+            // cout<<l<<" "<<r<<endl;
+            if (cnt == k) return ans;
+        }
+        
+        l = nums[n - 1] + 1, r = k - cnt - 1 + l;
+        // cout<<l<<" "<<r<<endl;
+        ans += -1*(l * (l - 1)) / 2 + (r * (r + 1)) / 2;
+        
+        return ans;
+    }
+};
