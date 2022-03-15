@@ -1,0 +1,40 @@
+class Solution {
+public:
+    string minRemoveToMakeValid(string s) {
+        string res;
+        int n = s.size(), val = 0;
+        
+        for (int i = 0; i < n; i++) {
+            if (s[i] == '(') {
+                val++;
+                res.push_back(s[i]);
+            }
+            else if (s[i] == ')') {
+                val--;
+                if (val < 0) {
+                    val = 0; 
+                    continue;
+                }
+                res.push_back(s[i]);
+            }
+            else {
+                res.push_back(s[i]);
+            }
+        }
+        
+        string ans;
+        
+        for (int i = res.size() - 1; i >= 0; i--) {
+            if (res[i] == '(' && val > 0) {
+                val--;
+                continue;
+            }
+            ans.push_back(res[i]);
+            // cout<<ans<<endl;
+        }
+        
+        reverse(ans.begin(), ans.end());
+        
+        return ans;
+    }
+};
