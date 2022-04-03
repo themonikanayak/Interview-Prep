@@ -1,0 +1,28 @@
+class Solution {
+public:
+    vector<int> addToArrayForm(vector<int>& num, int k) {
+        reverse(num.begin(), num.end());
+        
+        int x = k, y;
+        
+        for (int i = 0; i < (int) num.size(); i++) {
+            y = (x + num[i]) % 10;
+            x = (x + num[i]) / 10;
+            
+            num[i] = y;
+        }
+        int idx = num.size(); 
+            
+        while(x > 0) {
+            y = x % 10;
+            x /= 10;
+            
+            num.push_back(y);
+        }
+        
+        // reverse(num.begin() + idx, num.end());
+        reverse(num.begin(), num.end());
+        
+        return num;
+    }
+};
