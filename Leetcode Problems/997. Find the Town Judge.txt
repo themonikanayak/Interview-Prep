@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int findJudge(int n, vector<vector<int>>& trust) {
+        vector<vector<int>> v1(n + 1);
+        vector<vector<int>> v2(n + 1);
+        vector<int> res;
+        
+        for (int i = 0; i < trust.size(); i++) {
+            if (trust[i][0] != trust[i][1]) {
+                v1[trust[i][1]].push_back(trust[i][0]);
+                v2[trust[i][0]].push_back(trust[i][1]);
+            }
+        }
+        
+        for (int i = 1; i <= n; i++) {
+            if (v1[i].size() == n - 1 && v2[i].size() == 0) res.push_back(i);
+        }
+        
+        if (res.size() == 1) return res[0];
+        
+        return -1;
+    }
+};
