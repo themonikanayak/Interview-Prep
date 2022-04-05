@@ -1,0 +1,33 @@
+class Solution {
+public:
+    string frequencySort(string s) {
+        priority_queue<pair<int, char>> pq;
+        int n = s.size(), cnt = 0;
+        char c;
+        sort(s.begin(), s.end());
+        
+        for (int i = 0; i < n; i++) {
+            if (i > 0 && s[i] != s[i - 1]) {
+                pq.push({cnt, s[i - 1]});
+                cnt = 0;
+            }
+            
+            cnt++;
+            
+            if (i == n - 1) pq.push({cnt, s[i]});
+        }
+        
+        string res;
+        while(!pq.empty()) {
+            c = pq.top().second;
+            cnt = pq.top().first;
+            pq.pop();
+            
+            for (int i = 0; i < cnt; i++) {
+                res.push_back(c);
+            }
+        }
+        
+        return res;
+    }
+};
